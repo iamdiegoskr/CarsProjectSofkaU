@@ -11,14 +11,19 @@ public class CarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column
     private String mark;
 
+    @Column
     private String model;
 
+    @Column
     private String origin;
 
+    @Column
     private boolean isElectric;
 
+    @Column
     private String cylinder_capacity;
 
     public CarEntity() {
