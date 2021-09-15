@@ -2,15 +2,20 @@ package com.sofkau.CarsProject.controller;
 
 import com.sofkau.CarsProject.entities.CarEntity;
 import com.sofkau.CarsProject.services.ICarService;
+import com.sofkau.CarsProject.utils.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/cars")
+@CrossOrigin(origins = "*")
 public class CarController {
 
     @Autowired
@@ -29,13 +34,16 @@ public class CarController {
     }
 
     @PostMapping(value="/saveCar")
-    public  ResponseEntity<CarEntity> saveCar(@RequestBody CarEntity carEntity){
+    public  HttpEntity<Object> saveCar(@Valid @RequestBody CarEntity carEntity, BindingResult result){
+        if(result.hasErrors()){
+            return new ResponseEntity<>("Error al ingresar la informacion", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(service.saveCar(carEntity),HttpStatus.CREATED);
     }
 
     @PutMapping(value="/updateCar")
-    public CarEntity updateCar(@RequestBody CarEntity carEntity){
-        return service.updateCar(carEntity);
+    public ResponseEntity<CarEntity> updateCar(@RequestBody CarEntity carEntity){
+        return new ResponseEntity<>(service.updateCar(carEntity),HttpStatus.OK);
     }
 
     @DeleteMapping(value="deleteCar/{id}")

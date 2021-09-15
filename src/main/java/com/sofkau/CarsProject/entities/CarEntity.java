@@ -2,6 +2,9 @@ package com.sofkau.CarsProject.entities;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tbl_car")
@@ -11,19 +14,19 @@ public class CarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @NotEmpty(message = "Debes especificar la marca del coche")
     private String mark;
 
-    @Column
+    @NotEmpty(message = "Debes especificar el model del coche")
     private String model;
 
-    @Column
+    @NotEmpty(message = "Debes especificar el origen del coche")
     private String origin;
 
-    @Column
+    @NotNull(message = "Debes especificar si es electrico o no")
     private boolean isElectric;
 
-    @Column
+    @NotEmpty(message = "Debes especificar la capacidad")
     private String cylinder_capacity;
 
     public CarEntity() {
