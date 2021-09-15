@@ -2,7 +2,6 @@ package com.sofkau.CarsProject.controller;
 
 import com.sofkau.CarsProject.entities.CarEntity;
 import com.sofkau.CarsProject.services.ICarService;
-import com.sofkau.CarsProject.utils.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -15,12 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/cars")
-@CrossOrigin(origins = "*")
 public class CarController {
 
     @Autowired
     private ICarService service;
 
+    @CrossOrigin
     @GetMapping(value = "/list")
     public List<CarEntity> getAllCars(){
         return service.listCarsAll();
@@ -33,6 +32,7 @@ public class CarController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @CrossOrigin
     @PostMapping(value="/saveCar")
     public  HttpEntity<Object> saveCar(@Valid @RequestBody CarEntity carEntity, BindingResult result){
         if(result.hasErrors()){
@@ -41,11 +41,13 @@ public class CarController {
         return new ResponseEntity<>(service.saveCar(carEntity),HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PutMapping(value="/updateCar")
     public ResponseEntity<CarEntity> updateCar(@RequestBody CarEntity carEntity){
         return new ResponseEntity<>(service.updateCar(carEntity),HttpStatus.OK);
     }
 
+    @CrossOrigin
     @DeleteMapping(value="deleteCar/{id}")
     public void deleteCar(@PathVariable int id){
         service.deleteCarById(id);
